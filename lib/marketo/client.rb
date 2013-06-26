@@ -110,7 +110,7 @@ module Rapleaf
 
           response = send_request("ns1:paramsSyncLead", {
               :return_lead => true,
-              :marketo_cookie => cookie,
+              :marketoCookie => cookie,
               :lead_record =>
                   {:email               => lead_record.email,
                    :lead_attribute_list => {

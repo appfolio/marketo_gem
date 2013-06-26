@@ -91,17 +91,17 @@ module Rapleaf
       # * mobile - mobile/cell phone number
       #
       # returns the LeadRecord instance on success otherwise nil
-      def sync_lead(email, first, last, company, mobile)
+      def sync_lead(email, first, last, company, mobile, cookie)
         lead_record = LeadRecord.new(email)
         lead_record.set_attribute('FirstName', first)
         lead_record.set_attribute('LastName', last)
         lead_record.set_attribute('Email', email)
         lead_record.set_attribute('Company', company)
         lead_record.set_attribute('MobilePhone', mobile)
-        sync_lead_record(lead_record)
+        sync_lead_record(lead_record, cookie)
       end
 
-      def sync_lead_record(lead_record)
+      def sync_lead_record(lead_record, cookie)
         begin
           attributes = []
           lead_record.each_attribute_pair do |name, value|
@@ -110,6 +110,7 @@ module Rapleaf
 
           response = send_request("ns1:paramsSyncLead", {
               :return_lead => true,
+              :marketo_cookie => cookie,
               :lead_record =>
                   {:email               => lead_record.email,
                    :lead_attribute_list => {
